@@ -1,22 +1,29 @@
-packagename: helloworld
-version: 1.0
-license: Apache-2.0
-actions:
- - name: hello
-   version: 1.0
-   function: src/hello/hello.js
-   runtime: nodejs@6
-   inputs:
-    - name: person name
-      type: string
-      description: input person name
-    - name: personAddress
-      type: string
-      description: input person address
-   outputs:
-    - name: greeting string
-      type: string
-      description: output greeting string
-    - name: notice
-      type: string
-      description: output notice string
+---
+package:
+  actions:
+    -
+      function: src/hello/hello.js
+      inputs:
+        -
+          description: "input person name"
+          name: "person name"
+          type: string
+        -
+          description: "input person address"
+          name: personAddress
+          type: string
+      name: hello
+      outputs:
+        -
+          description: "output greeting string"
+          name: "greeting string"
+          type: string
+        -
+          description: "output notice string"
+          name: notice
+          type: string
+      runtime: nodejs@6
+      version: 1.0
+  license: Apache-2.0
+  packagename: helloworld
+  version: 1.0

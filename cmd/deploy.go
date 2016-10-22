@@ -32,7 +32,7 @@ var deployCmd = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 		fmt.Println("deploy called")
 		fmt.Println("Print: " + deploymentfile)
-		var deployment model.Deployment
+		var deployment model.DeploymentYAML
 		data, err:=ioutil.ReadFile(deploymentfile)
 		if err!=nil{
 			fmt.Errorf("error happened %v",err)

@@ -12,12 +12,12 @@ func init() {
 }
 
 type ParseDeploymentYaml interface {
-	unmarshal(input []byte, deploy *Deployment) error
-	marshal(deployment *Deployment) (output []byte, err error)
+	unmarshal(input []byte, deploy *DeploymentYAML) error
+	marshal(deployment *DeploymentYAML) (output []byte, err error)
 }
 
 type DeploymentManager struct {
-	deployments []*Deployment
+	deployments []*DeploymentYAML
 	lastID      uint32
 }
 
@@ -30,14 +30,18 @@ type Action struct {
 	Output   []map[string]interface{} `yaml:"outputs"`
 }
 
-type Deployment struct {
+type Package struct {
 	Packagename string   `yaml:"packagename"`
 	Version     string   `yaml:"version"`
 	License     string   `yaml:"license"`
 	Actions     []Action `yaml:"actions"`
 }
 
-func (dm *DeploymentManager) Unmarshal(input []byte, deploy *Deployment) error {
+type DeploymentYAML struct{
+	Package  Package `yaml:"package"`
+}
+
+func (dm *DeploymentManager) Unmarshal(input []byte, deploy *DeploymentYAML) error {
 	err := yaml.Unmarshal(input, deploy)
 	if err != nil {
 		log.Fatalf("error happened during unmarshal :%v", err)
@@ -46,7 +50,7 @@ func (dm *DeploymentManager) Unmarshal(input []byte, deploy *Deployment) error {
 	return nil
 }
 
-func (dm *DeploymentManager) Marshal(deployment *Deployment) (output []byte, err error) {
+func (dm *DeploymentManager) Marshal(deployment *DeploymentYAML) (output []byte, err error) {
 	data, err := yaml.Marshal(deployment)
 	if err != nil {
 		log.Fatalf("err happened during marshal :%v", err)
